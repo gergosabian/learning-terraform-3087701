@@ -58,12 +58,14 @@ module "alb" {
     http-listener = {
       port     = 80
       protocol = "HTTP"
-      target_group_index = 0
+      forward = {
+        target_group_key = "blog-instance"
+      }
     }
   }
 
   target_groups = {
-    ex-instance = {
+    blog-instance = {
       name_prefix      = "blog-"
       protocol         = "HTTP"
       port             = 80
