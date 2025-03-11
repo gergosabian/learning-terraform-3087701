@@ -46,7 +46,7 @@ module "autoscaling" {
 
   traffic_source_attachments = {
     blog-alb = {
-      traffic_source_identifier = module.blog_alb.target_groups["blog-instance"].arn
+      traffic_source_identifier = module.blog_alb.target_groups["blog-instance"].id
     }
   }
 
@@ -78,7 +78,6 @@ module "blog_alb" {
       protocol         = "HTTP"
       port             = 80
       target_type      = "instance"
-      target_id        = module.autoscaling.autoscaling_group_target_group_arns[0]
     }
   }
 
