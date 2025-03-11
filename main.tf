@@ -44,14 +44,13 @@ module "autoscaling" {
   vpc_zone_identifier = module.blog_vpc.public_subnets
   security_groups = [module.blog_sg.security_group_id]
 
-  traffic_source_attachments = {
-    blog-alb = {
-      traffic_source_identifier = module.blog_alb.target_groups["blog-instance"].arn
-    }
-  }
-  
   image_id      = data.aws_ami.app_ami.id
   instance_type = var.instance_type
+}
+
+resource "aws_autoscaling_attachment" "asg_alb_attachment" {
+  autoscaling_group_name = module.autoscaling.autoscaling_group_name
+  alb_target_group_arn   = module.blog_alb.target_groups["blog-instance"].arn
 }
 
 module "blog_alb" {
